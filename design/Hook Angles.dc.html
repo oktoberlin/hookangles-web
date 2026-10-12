@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+<style>
+:root{--display:'Gloock',Georgia,serif;--sans:'Geist',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;
+--bg:#f5f3ee;--surface:#fffefa;--surface-2:#efece4;--ink:#17160f;--muted:#5d5a50;--line:#e0dcd1;--line-strong:#c9c4b6;--danger:#b42318;--on-accent:#ffffff;--accent:#c23a17;
+--shadow-panel:0 1px 0 rgba(23,22,15,.04),0 18px 40px -24px rgba(23,22,15,.28);color-scheme:light}
+:root[data-accent=Forest]{--accent:#2f6b3a}:root[data-accent=Ochre]{--accent:#8a5a00}
+:root[data-theme=dark]{--bg:#11110f;--surface:#1a1915;--surface-2:#23221d;--ink:#efece4;--muted:#a8a499;--line:#2f2d27;--line-strong:#46433a;--danger:#ff8a7a;--on-accent:#17160f;--accent:#ff7a4d;
+--shadow-panel:0 1px 0 rgba(0,0,0,.3),0 18px 40px -24px rgba(0,0,0,.7);color-scheme:dark}
+:root[data-theme=dark][data-accent=Forest]{--accent:#7cc48a}:root[data-theme=dark][data-accent=Ochre]{--accent:#e0a93a}
+:root{--accent-soft:color-mix(in oklab,var(--accent) 11%,var(--surface))}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+a{color:var(--ink);text-decoration-color:var(--line-strong);text-underline-offset:3px}a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+textarea:focus-visible,input:focus-visible{outline:none}
+::selection{background:var(--accent);color:var(--on-accent)}
+@keyframes ha-shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+@keyframes ha-toast{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<header style="position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)">
+  <div style="max-width:1160px;margin:0 auto;padding:14px clamp(20px,5vw,48px);display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap">
+    <a href="#top" aria-label="Hook Angles home" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="color:var(--accent);flex:none"><path d="M3 20.5H21.5M3 20.5L18 4" stroke="currentColor" stroke-width="2" stroke-linecap="square"></path><path d="M9.5 20.5A6.5 6.5 0 0 0 7.6 15.9" stroke="currentColor" stroke-width="1.5"></path></svg>
+      <span style="display:flex;flex-direction:column;line-height:1">
+        <span style="font:400 21px/1 var(--display);letter-spacing:-.01em">Hook Angles</span>
+        <span style="font:400 10.5px/1 var(--mono);color:var(--muted);margin-top:4px;letter-spacing:.02em">hookangles.com</span>
+      </span>
+    </a>
+    <nav aria-label="Primary" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+      <a href="#tool" style="font:500 14px/1 var(--sans);padding:9px 10px;text-decoration:none;color:var(--ink);border-radius:4px" style-hover="background:var(--surface-2);color:var(--ink)">Tool</a>
+      <a href="#how" style="font:500 14px/1 var(--sans);padding:9px 10px;text-decoration:none;color:var(--ink);border-radius:4px" style-hover="background:var(--surface-2);color:var(--ink)">How it works</a>
+      <a href="#tools" style="font:500 14px/1 var(--sans);padding:9px 10px;text-decoration:none;color:var(--ink);border-radius:4px" style-hover="background:var(--surface-2);color:var(--ink)">More tools</a>
+      <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeAria }}" style="margin-left:6px;display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border:1px solid var(--line-strong);background:transparent;color:var(--ink);border-radius:999px;font:500 12px/1 var(--mono);cursor:pointer" style-hover="border-color:var(--ink)">
+        <span aria-hidden="true" style="width:12px;height:12px;border-radius:50%;border:1.5px solid currentColor;background:linear-gradient(90deg,currentColor 50%,transparent 50%)"></span>{{ themeLabel }}
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="top" style="flex:1">
+<section id="tool" style="max-width:1160px;margin:0 auto;padding:clamp(40px,7vw,88px) clamp(20px,5vw,48px) 0;scroll-margin-top:80px">
+  <p style="margin:0 0 20px;font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap"><span style="color:var(--accent)">∠ Free tool</span><span>No login</span><span>6–8 angles per brief</span></p>
+  <h1 style="margin:0;max-width:15ch;font:400 clamp(42px,7.2vw,88px)/.98 var(--display);letter-spacing:-.025em;text-wrap:balance">Stop opening with <span style="color:var(--accent)">“I came across your post.”</span></h1>
+  <p style="margin:22px 0 0;max-width:56ch;font:400 clamp(17px,1.6vw,19px)/1.5 var(--sans);color:var(--muted);text-wrap:pretty">Paste an offer, a service, or a job post. Get 6–8 distinct opening hooks for proposals, cold emails, and ads — each one ready to send.</p>
+
+  <div style="margin-top:clamp(28px,4vw,44px);background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;box-shadow:var(--shadow-panel)">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px 0;flex-wrap:wrap">
+      <label for="brief" style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Your brief</label>
+      <div style="display:flex;gap:14px">
+        <button type="button" onClick="{{ fillSample }}" style="background:none;border:0;padding:4px 0;font:500 13px/1 var(--sans);color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px">Try a sample job post</button>
+        <sc-if value="{{ hasText }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearText }}" style="background:none;border:0;padding:4px 0;font:500 13px/1 var(--sans);color:var(--muted);cursor:pointer">Clear</button></sc-if>
+      </div>
+    </div>
+    <textarea id="brief" value="{{ text }}" onChange="{{ onText }}" onKeyDown="{{ onKey }}" aria-describedby="brief-help" placeholder="Paste the job post, your offer, or a description of your service. Real details help most — budget, deadline, numbers, who it’s for." style="display:block;width:100%;box-sizing:border-box;min-height:clamp(170px,22vw,210px);resize:vertical;border:0;background:transparent;color:var(--ink);padding:12px 18px 16px;font:400 17px/1.55 var(--sans)"></textarea>
+    <sc-if value="{{ inputErr }}" hint-placeholder-val="{{ false }}">
+      <p role="alert" style="margin:0 18px 12px;font:500 13.5px/1.4 var(--sans);color:var(--danger)">{{ inputErr }}</p>
+    </sc-if>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;border-top:1px solid var(--line);flex-wrap:wrap">
+      <div role="radiogroup" aria-label="Tone" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Tone</span>
+        <div style="display:flex;padding:3px;gap:2px;background:var(--surface-2);border-radius:7px;flex-wrap:wrap">
+          <sc-for list="{{ tones }}" as="t" hint-placeholder-count="4">
+            <button type="button" role="radio" aria-checked="{{ t.active }}" onClick="{{ t.pick }}" style="border:0;cursor:pointer;padding:8px 13px;border-radius:5px;font:500 14px/1 var(--sans);background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.shadow }}">{{ t.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-left:auto">
+        <span id="brief-help" style="font:400 12.5px/1 var(--mono);color:{{ countColor }}">{{ charCount }} / 4000</span>
+        <button type="button" onClick="{{ generate }}" disabled="{{ isLoading }}" style="display:flex;align-items:center;gap:10px;height:46px;padding:0 20px;border:0;border-radius:6px;background:var(--ink);color:var(--bg);font:600 15px/1 var(--sans);cursor:pointer;opacity:{{ btnOpacity }}" style-hover="background:var(--accent);color:var(--on-accent)">{{ generateLabel }}<span aria-hidden="true" style="font:400 12px/1 var(--mono);opacity:.6">⌘↵</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-label="Results" aria-live="polite" aria-busy="{{ isLoading }}" style="max-width:1160px;margin:0 auto;padding:clamp(28px,4vw,40px) clamp(20px,5vw,48px) 0">
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ true }}">
+    <div style="border:1.5px dashed var(--line-strong);border-radius:10px;padding:clamp(32px,6vw,56px) 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+      <svg width="34" height="44" viewBox="0 0 34 44" fill="none" aria-hidden="true" style="color:var(--accent)"><path d="M22 3V30A9 9 0 0 1 4 30V25" stroke="currentColor" stroke-width="2"></path><path d="M4 25L9 30" stroke="currentColor" stroke-width="2"></path><circle cx="22" cy="3" r="2" fill="currentColor"></circle></svg>
+      <p style="margin:0;font:400 26px/1.15 var(--display)">Your angles land here.</p>
+      <p style="margin:0;max-width:46ch;font:400 15px/1.5 var(--sans);color:var(--muted);text-wrap:pretty">The sharper the brief, the sharper the hooks. A price, a deadline, or a number gives each angle something real to grab.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px"><p style="margin:0;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Finding angles…</p></div>
+    <div style="display:grid;grid-template-columns:{{ gridCols }};gap:16px">
+      <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="6">
+        <div aria-hidden="true" style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <div style="width:96px;height:11px;border-radius:3px;background:linear-gradient(90deg,var(--surface-2) 0,var(--line) 50%,var(--surface-2) 100%);background-size:800px 100%;animation:ha-shimmer 1.4s linear infinite"></div>
+          <div style="height:18px;margin-top:6px;border-radius:3px;background:linear-gradient(90deg,var(--surface-2) 0,var(--line) 50%,var(--surface-2) 100%);background-size:800px 100%;animation:ha-shimmer 1.4s linear infinite"></div>
+          <div style="height:18px;width:82%;border-radius:3px;background:linear-gradient(90deg,var(--surface-2) 0,var(--line) 50%,var(--surface-2) 100%);background-size:800px 100%;animation:ha-shimmer 1.4s linear infinite"></div>
+          <div style="height:12px;width:60%;margin-top:8px;border-radius:3px;background:linear-gradient(90deg,var(--surface-2) 0,var(--line) 50%,var(--surface-2) 100%);background-size:800px 100%;animation:ha-shimmer 1.4s linear infinite"></div>
+          <div style="display:flex;gap:8px;margin-top:10px"><div style="width:72px;height:32px;border-radius:5px;background:var(--surface-2)"></div><div style="width:110px;height:32px;border-radius:5px;background:var(--surface-2)"></div></div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);padding:clamp(24px,4vw,36px);display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+      <span style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--danger);padding-top:8px;min-width:80px">Error 502</span>
+      <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font:400 28px/1.15 var(--display)">That one didn’t land.</p>
+        <p style="margin:0;max-width:58ch;font:400 15.5px/1.55 var(--sans);color:var(--muted)">The model sent back something we couldn’t use, even after a retry. Your brief is still in the box — nothing was lost.</p>
+        <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap"><button type="button" onClick="{{ generate }}" style="height:40px;padding:0 16px;border:0;border-radius:6px;background:var(--ink);color:var(--bg);font:600 14px/1 var(--sans);cursor:pointer">Try again</button></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isRate }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="border:1px solid var(--line-strong);border-radius:10px;background:var(--accent-soft);padding:clamp(24px,4vw,36px);display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+      <span style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);padding-top:8px;min-width:80px">Fair use</span>
+      <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font:400 28px/1.15 var(--display)">You’ve used this hour’s batches.</p>
+        <p style="margin:0;max-width:58ch;font:400 15.5px/1.55 var(--sans);color:var(--ink)">Hook Angles stays free by capping each visitor at 20 batches an hour. You can generate again in <strong style="font-family:var(--mono);font-weight:500">{{ rateMinutes }} min</strong>. Your last angles are still yours to copy.</p>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap">
+      <p style="margin:0;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)"><span style="color:var(--accent)">∠</span> {{ resultMeta }}</p>
+      <div style="display:flex;gap:8px">
+        <button type="button" onClick="{{ generate }}" style="height:36px;padding:0 14px;border:1px solid var(--line-strong);border-radius:6px;background:transparent;color:var(--ink);font:500 13.5px/1 var(--sans);cursor:pointer" style-hover="border-color:var(--ink)">New batch</button>
+        <button type="button" onClick="{{ copyAll }}" style="height:36px;padding:0 14px;border:1px solid var(--ink);border-radius:6px;background:var(--ink);color:var(--bg);font:500 13.5px/1 var(--sans);cursor:pointer">Copy all</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:{{ gridCols }};gap:16px">
+      <sc-for list="{{ angles }}" as="a" hint-placeholder-count="6">
+        <article style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:14px" style-hover="border-color:var(--line-strong)">
+          <header style="display:flex;align-items:baseline;gap:10px;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase">
+            <span style="color:var(--accent)">{{ a.num }}</span><span style="color:var(--ink)">{{ a.label }}</span>
+          </header>
+          <sc-if value="{{ a.busy }}" hint-placeholder-val="{{ false }}">
+            <div aria-label="Regenerating" style="display:flex;flex-direction:column;gap:10px;padding:4px 0 6px">
+              <div style="height:18px;border-radius:3px;background:linear-gradient(90deg,var(--surface-2) 0,var(--line) 50%,var(--surface-2) 100%);background-size:800px 100%;animation:ha-shimmer 1.4s linear infinite"></div>
+              <div style="height:18px;width:70%;border-radius:3px;background:linear-gradient(90deg,var(--surface-2) 0,var(--line) 50%,var(--surface-2) 100%);background-size:800px 100%;animation:ha-shimmer 1.4s linear infinite"></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ a.idle }}" hint-placeholder-val="{{ true }}">
+            <p style="margin:0;font:400 21px/1.36 var(--display);letter-spacing:-.005em;text-wrap:pretty">{{ a.hook }}</p>
+          </sc-if>
+          <p style="margin:0;font:400 14px/1.5 var(--sans);color:var(--muted);text-wrap:pretty"><span style="font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-right:6px">Why it works</span>{{ a.why }}</p>
+          <div style="display:flex;gap:8px;margin-top:auto;padding-top:4px">
+            <button type="button" onClick="{{ a.copy }}" aria-label="{{ a.copyAria }}" style="height:34px;padding:0 13px;border:1px solid var(--line-strong);border-radius:5px;background:{{ a.copyBg }};color:{{ a.copyFg }};font:500 13px/1 var(--sans);cursor:pointer" style-hover="border-color:var(--ink)">{{ a.copyLabel }}</button>
+            <button type="button" onClick="{{ a.regen }}" disabled="{{ a.busy }}" aria-label="{{ a.regenAria }}" style="height:34px;padding:0 12px;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--muted);font:500 13px/1 var(--sans);cursor:pointer" style-hover="color:var(--ink);background:var(--surface-2)">↻ Regenerate this one</button>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </sc-if>
+</section>
+
+<section id="how" style="max-width:1160px;margin:0 auto;padding:clamp(72px,10vw,120px) clamp(20px,5vw,48px) 0;scroll-margin-top:70px">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px"><span style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)">∠ 02</span><span style="flex:1;height:1px;background:var(--line-strong)"></span></div>
+  <h2 style="margin:0 0 clamp(28px,4vw,44px);max-width:18ch;font:400 clamp(34px,4.6vw,54px)/1.02 var(--display);letter-spacing:-.02em;text-wrap:balance">Three steps to a first line worth reading.</h2>
+  <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:0;border-top:1px solid var(--line)">
+    <li style="padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)"><span style="font:500 12px/1 var(--mono);color:var(--accent)">01</span><p style="margin:0;font:600 18px/1.3 var(--sans)">Paste the brief</p><p style="margin:0;font:400 15px/1.55 var(--sans);color:var(--muted);text-wrap:pretty">A job post, your offer, or a few lines about your service. Up to 4,000 characters.</p></li>
+    <li style="padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)"><span style="font:500 12px/1 var(--mono);color:var(--accent)">02</span><p style="margin:0;font:600 18px/1.3 var(--sans)">Pick a tone</p><p style="margin:0;font:400 15px/1.55 var(--sans);color:var(--muted);text-wrap:pretty">Direct, friendly, bold, or formal. Every angle is written from details in your text — nothing invented.</p></li>
+    <li style="padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)"><span style="font:500 12px/1 var(--mono);color:var(--accent)">03</span><p style="margin:0;font:600 18px/1.3 var(--sans)">Take the one that fits</p><p style="margin:0;font:400 15px/1.55 var(--sans);color:var(--muted);text-wrap:pretty">Copy it, tweak a word, send. Don’t love one? Regenerate just that angle.</p></li>
+  </ol>
+
+  <div style="margin-top:clamp(32px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px">
+    <figure style="margin:0;padding:clamp(22px,3vw,32px);border:1px solid var(--line);border-radius:10px;background:var(--surface-2);display:flex;flex-direction:column;gap:16px">
+      <figcaption style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Before · the generic opener</figcaption>
+      <blockquote style="margin:0;font:400 21px/1.4 var(--display);color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in oklab,var(--muted) 55%,transparent);text-decoration-thickness:1px">Hi! I came across your job posting and I’m very interested. I have 5+ years of copywriting experience and I’m confident I’d be a great fit.</blockquote>
+      <p style="margin:auto 0 0;font:400 14px/1.5 var(--sans);color:var(--muted)">Could be sent to any client. Says nothing about theirs.</p>
+    </figure>
+    <figure style="margin:0;padding:clamp(22px,3vw,32px);border:1px solid var(--ink);border-radius:10px;background:var(--surface);display:flex;flex-direction:column;gap:16px">
+      <figcaption style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)">After · Specific number angle</figcaption>
+      <blockquote style="margin:0;font:400 21px/1.4 var(--display);color:var(--ink)">Twelve pages in three weeks is four a week. Here’s the order I’d write them in so the first four move your 1.1% before the rest are drafted.</blockquote>
+      <p style="margin:auto 0 0;font:400 14px/1.5 var(--sans);color:var(--muted)">Uses their numbers, shows a plan, earns the next sentence.</p>
+    </figure>
+  </div>
+</section>
+
+<section id="tools" style="max-width:1160px;margin:0 auto;padding:clamp(72px,10vw,120px) clamp(20px,5vw,48px) 0;scroll-margin-top:70px">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px"><span style="font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)">∠ 03</span><span style="flex:1;height:1px;background:var(--line-strong)"></span></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap;margin-bottom:clamp(24px,4vw,36px)">
+    <h2 style="margin:0;max-width:16ch;font:400 clamp(34px,4.6vw,54px)/1.02 var(--display);letter-spacing:-.02em;text-wrap:balance">More small tools for the work after the hook.</h2>
+    <p style="margin:0;max-width:38ch;font:400 15.5px/1.55 var(--sans);color:var(--muted)">Same idea, different job: one thing done well, no bloat.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px">
+    <sc-for list="{{ tools }}" as="tl" hint-placeholder-count="4">
+      <a href="{{ tl.href }}" style="display:flex;flex-direction:column;gap:12px;min-height:170px;padding:22px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s" style-hover="border-color:var(--ink);color:var(--ink);transform:translateY(-2px)">
+        <span style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span style="font:400 26px/1 var(--display)">{{ tl.name }}</span><span aria-hidden="true" style="font:400 18px/1 var(--sans);color:var(--accent)">↗</span></span>
+        <span style="font:400 15px/1.5 var(--sans);color:var(--muted);text-wrap:pretty">{{ tl.desc }}</span>
+        <span style="margin-top:auto;font:400 12px/1 var(--mono);color:var(--muted)">{{ tl.host }}</span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<section aria-label="Newsletter" style="max-width:1160px;margin:0 auto;padding:clamp(64px,8vw,96px) clamp(20px,5vw,48px) 0">
+  <div style="border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);padding:28px 0;display:flex;align-items:center;justify-content:space-between;gap:20px 40px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:6px;max-width:48ch">
+      <p style="margin:0;font:600 17px/1.3 var(--sans)">Get new angle packs</p>
+      <p style="margin:0;font:400 14.5px/1.5 var(--sans);color:var(--muted)">One short email when we add a new set of angles. About monthly. Totally optional — the tool works without it.</p>
+    </div>
+    <sc-if value="{{ emailOpen }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ onSubscribe }}" style="display:flex;gap:8px;flex:1;min-width:min(100%,300px);max-width:440px">
+        <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+        <input id="email" type="email" required="" value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@studio.com" style="flex:1;min-width:0;height:42px;padding:0 14px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface);color:var(--ink);font:400 15px/1 var(--sans)" style-focus="border-color:var(--ink);box-shadow:0 0 0 3px var(--accent-soft)">
+        <button type="submit" style="height:42px;padding:0 16px;border:1px solid var(--ink);border-radius:6px;background:transparent;color:var(--ink);font:600 14px/1 var(--sans);cursor:pointer" style-hover="background:var(--ink);color:var(--bg)">Subscribe</button>
+      </form>
+    </sc-if>
+    <sc-if value="{{ emailDone }}" hint-placeholder-val="{{ false }}">
+      <p role="status" style="margin:0;font:500 14px/1.4 var(--mono);color:var(--accent)">✓ You’re on the list. See you next pack.</p>
+    </sc-if>
+  </div>
+</section>
+</main>
+
+<footer style="max-width:1160px;width:100%;box-sizing:border-box;margin:0 auto;padding:48px clamp(20px,5vw,48px) 40px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px 40px;flex-wrap:wrap">
+  <div style="display:flex;flex-direction:column;gap:10px;max-width:46ch">
+    <span style="font:400 20px/1 var(--display)">Hook Angles</span>
+    <p style="margin:0;font:400 14px/1.5 var(--sans);color:var(--muted)">A free, independent tool for people who write a lot of first lines.</p>
+  </div>
+  <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;font:400 12.5px/1 var(--mono);color:var(--muted)">
+    <a href="mailto:hello@hookangles.com" style="color:var(--ink)">hello@hookangles.com</a>
+    <span>© 2026 Hook Angles</span>
+  </div>
+</footer>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div role="status" aria-live="polite" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:6px;background:var(--ink);color:var(--bg);font:500 13px/1 var(--mono);box-shadow:0 10px 30px -10px rgba(0,0,0,.45);animation:ha-toast .18s ease-out;white-space:nowrap"><span style="color:var(--accent)">✓</span>{{ toast }}</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;demoState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;empty&quot;,&quot;loading&quot;,&quot;success&quot;,&quot;error&quot;,&quot;rate-limited&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Review&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Vermilion&quot;,&quot;Forest&quot;,&quot;Ochre&quot;],&quot;default&quot;:&quot;Vermilion&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Look&quot;},&quot;resultsLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Grid&quot;,&quot;Stack&quot;],&quot;default&quot;:&quot;Grid&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Look&quot;}}">
+const SAMPLE = "We're a 6-person Shopify brand selling refillable cleaning products. Our product pages convert at 1.1% and we think the copy is the problem. Looking for a conversion copywriter to rewrite 12 product pages and our homepage hero over the next 3 weeks. Budget is $2,500. Please share ecommerce examples and tell us how you'd approach the first page.";
+const MOCK = [
+  { label: "Pain", hook: "At 1.1%, almost everyone who reads your product pages leaves anyway. I'd start with the page that gets the most traffic, not the one you like least.", why: "Names their exact number back to them, then shows judgment." },
+  { label: "Contrarian", hook: "I don't think the copy is the whole problem. At 1.1% it's usually the first screen above the price — I'd fix that before touching the other eleven pages.", why: "Mild disagreement signals expertise; most applicants just agree." },
+  { label: "Proof", hook: "Below are two ecommerce pages I rewrote, before and after, side by side — so you can judge the approach on pages like yours, not on my say-so.", why: "Lets the work argue for you instead of adjectives." },
+  { label: "Curiosity", hook: "There's one line missing from most refillable product pages, and it's probably the one costing you the most sales. I'll point to it on your first page.", why: "Opens a loop only a reply can close." },
+  { label: "Specific number", hook: "Twelve pages in three weeks is four a week. Here's the order I'd write them in so the first four move your 1.1% before the rest are drafted.", why: "Turns their brief into a plan they can picture." },
+  { label: "Story", hook: "A shopper likes the bottle, then stalls at 'will this refill fit what I have?' I'd write for that exact moment first.", why: "A small, concrete scene beats a list of skills." },
+  { label: "Question", hook: "When someone leaves a product page today, do you know whether it's price, the refill system, or the copy that loses them?", why: "A sharp question proves you've already started thinking." },
+  { label: "Risk reversal", hook: "Let me rewrite one page first. If it doesn't beat the current version in a two-week test, you don't owe me for the other eleven.", why: "Removes the risk of saying yes to a stranger." }
+];
+const TONES = ["Direct", "Friendly", "Bold", "Formal"];
+const LABELS = ["Pain", "Contrarian", "Proof", "Curiosity", "Specific number", "Story", "Question", "Risk reversal"];
+const TOOLS = [
+  { name: "Reply", host: "reply.hookangles.com", desc: "Drafts replies to customer emails in your voice." },
+  { name: "Handoff", host: "handof.hookangles.com", desc: "Clean project handoffs between people, nothing dropped." },
+  { name: "Invoices", host: "invoices.hookangles.com", desc: "Simple invoicing, with test payments to try it first." },
+  { name: "Payroll", host: "payroll.hookangles.com", desc: "Payroll for small teams, without the enterprise suite." }
+].map(t => ({ ...t, href: "https://" + t.host }));
+const SYS = "You write opening hooks for proposals, cold emails and ads. Use ONLY details present in the user's text; never invent statistics, client names or results. Each hook is 1-2 sentences, ready to send, no greeting. 'why' is under 16 words. Return strict JSON only: {\"angles\":[{\"label\":string,\"hook\":string,\"why\":string}]}. Allowed labels: " + LABELS.join(", ") + ".";
+
+function parseJSON(s) { const m = s.match(/\{[\s\S]*\}/); if (!m) throw new Error("no json"); return JSON.parse(m[0]); }
+
+class Component extends DCLogic {
+  state = { text: "", tone: "Direct", status: "empty", angles: [], busy: {}, copied: -1, toast: "", theme: "light", email: "", emailDone: false, inputErr: "", runs: [], usedTone: "Direct" };
+
+  componentDidMount() {
+    const q = new URLSearchParams(location.search);
+    const saved = localStorage.getItem("ha-theme");
+    const theme = q.get("theme") || saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    this.setState({ theme });
+    if (q.get("state")) this.qState = q.get("state");
+    this.applyRoot(theme);
+  }
+  componentDidUpdate() { this.applyRoot(this.state.theme); }
+  applyRoot(theme) { const r = document.documentElement; r.dataset.theme = theme; r.dataset.accent = this.props.accent ?? "Vermilion"; }
+
+  toast(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: "" }), 1800); }
+  async copy(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) { const t = document.createElement("textarea"); t.value = text; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); }
+  }
+  async callModel(user) {
+    if (!window.claude || !window.claude.complete) { await new Promise(r => setTimeout(r, 1400)); return null; }
+    return await window.claude.complete({ system: SYS, max_tokens: 1800, messages: [{ role: "user", content: user }] });
+  }
+  async generate() {
+    const text = this.state.text.trim();
+    if (text.length < 50) { this.setState({ inputErr: text.length ? "Give it a little more — at least 50 characters, so the angles have something real to work with." : "Paste a brief first. A job post, your offer, or a few lines about your service." }); return; }
+    if (text.length > 4000) { this.setState({ inputErr: "That's over 4,000 characters. Trim it to the part a client would actually read." }); return; }
+    const now = Date.now(); const runs = this.state.runs.filter(t => now - t < 3600e3);
+    if (runs.length >= 20) { this.setState({ status: "rate" }); return; }
+    this.setState({ status: "loading", inputErr: "", runs: [...runs, now], usedTone: this.state.tone });
+    const prompt = "Tone: " + this.state.tone + ". Write 8 distinct angles, one per allowed label.\n\nText:\n" + text;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const out = await this.callModel(prompt);
+        const angles = out === null ? (text === SAMPLE.trim() ? MOCK : MOCK) : parseJSON(out).angles;
+        if (!Array.isArray(angles) || angles.length < 6) throw new Error("bad");
+        this.setState({ status: "success", angles: angles.slice(0, 8).map(a => ({ label: String(a.label), hook: String(a.hook), why: String(a.why) })), busy: {} });
+        return;
+      } catch (e) {}
+    }
+    this.setState({ status: "error" });
+  }
+  async regen(i) {
+    const a = this.state.angles[i]; this.setState(s => ({ busy: { ...s.busy, [i]: true } }));
+    let next = null;
+    try {
+      const out = await this.callModel("Tone: " + this.state.usedTone + ". Write ONE new angle with label \"" + a.label + "\" that differs from: \"" + a.hook + "\". Return {\"angles\":[...]} with one item.\n\nText:\n" + this.state.text);
+      next = out === null ? { ...a, hook: a.hook } : parseJSON(out).angles[0];
+    } catch (e) { this.toast("Couldn't regenerate — kept the original"); }
+    this.setState(s => { const angles = s.angles.slice(); if (next) angles[i] = { label: a.label, hook: String(next.hook), why: String(next.why || a.why) }; return { angles, busy: { ...s.busy, [i]: false } }; });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const demo = this.qState || this.props.demoState || "live";
+    const map = { empty: "empty", loading: "loading", success: "success", error: "error", "rate-limited": "rate" };
+    const status = demo === "live" ? s.status : map[demo] || s.status;
+    const angles = status === "success" && !s.angles.length ? MOCK : s.angles;
+    const stack = (this.props.resultsLayout ?? "Grid") === "Stack";
+    const len = s.text.length;
+    const rateMin = s.runs.length ? Math.max(1, Math.ceil((s.runs[0] + 3600e3 - Date.now()) / 60e3)) : 38;
+    return {
+      text: s.text, hasText: len > 0, inputErr: s.inputErr,
+      onText: e => this.setState({ text: e.target.value, inputErr: "" }),
+      onKey: e => { if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); this.generate(); } },
+      fillSample: () => this.setState({ text: SAMPLE, inputErr: "" }),
+      clearText: () => this.setState({ text: "", inputErr: "" }),
+      charCount: len.toLocaleString(), countColor: len > 4000 ? "var(--danger)" : "var(--muted)",
+      tones: TONES.map(t => { const on = t === s.tone; return { label: t, active: on ? "true" : "false", pick: () => this.setState({ tone: t }), bg: on ? "var(--surface)" : "transparent", fg: on ? "var(--ink)" : "var(--muted)", shadow: on ? "0 1px 2px rgba(0,0,0,.12), 0 0 0 1px var(--line)" : "none" }; }),
+      generate: () => this.generate(), isLoading: status === "loading",
+      generateLabel: status === "loading" ? "Generating…" : "Generate angles", btnOpacity: status === "loading" ? 0.7 : 1,
+      isEmpty: status === "empty", isError: status === "error", isRate: status === "rate", isSuccess: status === "success",
+      rateMinutes: rateMin,
+      gridCols: stack ? "minmax(0,1fr)" : "repeat(auto-fill,minmax(min(100%,340px),1fr))",
+      skeletons: [1, 2, 3, 4, 5, 6],
+      resultMeta: angles.length + " angles · " + s.usedTone,
+      copyAll: async () => { await this.copy(angles.map(a => a.label + ": " + a.hook).join("\n\n")); this.toast("All " + angles.length + " angles copied"); },
+      angles: angles.map((a, i) => {
+        const copied = s.copied === i;
+        return {
+          num: String(i + 1).padStart(2, "0"), label: a.label, hook: a.hook, why: a.why,
+          busy: !!s.busy[i], idle: !s.busy[i],
+          copyLabel: copied ? "Copied" : "Copy", copyBg: copied ? "var(--accent)" : "transparent", copyFg: copied ? "var(--on-accent)" : "var(--ink)",
+          copyAria: "Copy the " + a.label + " hook", regenAria: "Regenerate the " + a.label + " hook",
+          copy: async () => { await this.copy(a.hook); clearTimeout(this.ct); this.setState({ copied: i }); this.ct = setTimeout(() => this.setState({ copied: -1 }), 1600); this.toast("Copied to clipboard"); },
+          regen: () => this.regen(i)
+        };
+      }),
+      tools: TOOLS,
+      themeLabel: s.theme === "dark" ? "Dark" : "Light", themeAria: "Switch to " + (s.theme === "dark" ? "light" : "dark") + " theme",
+      toggleTheme: () => { const t = s.theme === "dark" ? "light" : "dark"; localStorage.setItem("ha-theme", t); this.setState({ theme: t }); },
+      email: s.email, onEmail: e => this.setState({ email: e.target.value }),
+      onSubscribe: e => { e.preventDefault(); this.setState({ emailDone: true }); },
+      emailOpen: !s.emailDone, emailDone: s.emailDone,
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
