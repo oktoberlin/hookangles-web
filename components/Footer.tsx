@@ -6,7 +6,7 @@ export default function Footer() {
         <p className="m-0 text-sm leading-normal text-muted">A free, independent tool for people who write a lot of first lines.</p>
       </div>
       <div className="flex flex-wrap items-center gap-5 font-mono text-[12.5px] leading-none text-muted">
-        <a href="mailto:hello@hookangles.com" className="text-ink">hello@hookangles.com</a>
+        <a href="mailto:oktoberlin@gmail.com" className="text-ink">oktoberlin@gmail.com</a>
         <span>© 2026 Hook Angles</span>
       </div>
     </footer>
